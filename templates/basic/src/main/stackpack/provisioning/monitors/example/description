@@ -1,0 +1,14 @@
+HTTP responses with a status code in the 5xx range indicate server-side errors such as a misconfiguration, overload or internal server errors.
+To ensure a good user experience, the percentage of 5xx responses should be less than the configured percentage (5% is the default) of the total HTTP responses for a Kubernetes (K8s) service.
+To understand the full monitor definition check the details. 
+
+Because the exact threshold and severity might be application dependent, the thresholds can be overridden via a Kubernetes annotation on the service. For example to override the pre-configured deviating threshold and instead only have a critical threshold at 6% put this annotation on your service:
+```
+monitor.kubernetes-v2.stackstate.io/http-error-ratio-for-service: | 
+  { 
+    "criticalThreshold": 0.06,
+    "deviatingThreshold": null
+  }
+```
+
+Omitting the deviating threshold from this json snippet would have kept it at the configured 5%, with the critical threshold at 6% that means that the monitor would only result in a deviating state for an error ratio between 5% and 6%.
