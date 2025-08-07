@@ -1,5 +1,5 @@
   - _type: "Monitor"
-    name: "HTTP - 5xx error ratio"
+    name: "Test Monitor"
     tags:
       - services
     function: {{ get "urn:stackpack:common:monitor-function:topological-threshold"  }}
@@ -9,12 +9,12 @@
       queries:
         topologyQuery: (label = "stackpack:kubernetes" and type = "service")
         promqlQuery: 'any(present_over_time(podparty_http_requests_count{cluster_name="${tags.cluster-name}", direction="incoming", intra_pod!="true", local_pod_ns="${tags.namespace}", __multi__="${properties.local_pod_metric_selector__+}"}[5m]))'
-        aliasTemplate: "HTTP - 5xx error ratio"
+        aliasTemplate: "Test Monitor Template"
         unit: percent
       threshold: 0
-      titleTemplate: "HTTP - 5xx error ratio"
-    identifier: "urn:stackpack:community-kubernetes:shared:monitor:http-error-ratio-for-service"
-    description: "{{ include "./monitors/http-error-ratio-for-service/description" }}"
+      titleTemplate: "Test Monitor Template"
+    identifier: "urn:stackpack:<< .Name >>:shared:monitor:test-monitor"
+    description: "{{ include "./monitors/example/description" }}"
     status: "ENABLED"
     intervalSeconds: 10
     remediationHint: ""
